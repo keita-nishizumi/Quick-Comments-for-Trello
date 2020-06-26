@@ -32,7 +32,7 @@ class SearchBar extends React.Component {
                 <select className="BoardSelector">
                     <option value="">Choose a board...</option>
                     {this.props.myBoards.map(board => {
-                        return <option value={board.id}>{board.name}</option>;
+                        return <option key={board} value={board.id}>{board.name}</option>;
                     })}
                 </select>
                 <input placeholder="Enter A Card Name" onChange={this.handleTermChange}/>

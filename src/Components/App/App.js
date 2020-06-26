@@ -140,7 +140,6 @@ class App extends React.Component {
   }
 
   render() {
-    //this.setState({myBoards: Trello.getBoards()});
     return (
       <div>
         <h1>Quick<span className="highlight"> こめんと </span>for Trello</h1>
@@ -149,6 +148,7 @@ class App extends React.Component {
             onSearch={this.search}
             myBoards={this.state.myBoards}
           />
+          {/*Search Component goes here. props={this.onSearch} */}
           <div className="App-playlist" >
             <SearchResults
               searchResults={this.state.searchResults}
