@@ -12,8 +12,13 @@ class Search extends React.Component {
             term: "",
             boards: [],
             lists: [],
-            boardSelected: false
+            selectedBoard: {},
+            selectedList: {}
         }
+
+        this.selectBoard = this.selectBoard.bind(this);
+        this.selectList = this.selectList.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     //はじめに非同期通信でボード一覧を取得する。次に、取得したボードを使ってリストを更新する
@@ -23,20 +28,26 @@ class Search extends React.Component {
     async componentDidMount() {
         const myBoards = await Trello.getBoards();
         console.log("Search -> componentDidMount -> myBoards", myBoards);
-        //const myLists = await Trello.getLists();
         const myLists = await Trello.getAllLists(myBoards);
         this.setState ({
             boards: myBoards,
             lists: myLists
             });
-
-        this.handleSubmit = this.handleSubmit.bind(this);
         //this.search = this.search.bind(this);
     }
 
     /*search() {
         this.props.onSearch(this.state);
     }*/
+
+    selectBoard(board) {
+        this.setState({selectedBoard: board});
+    }
+
+    //FIXME Choose a list...の行のせいでindexがずれている可能性があります
+    selectList(idx) {
+        this.setState({selectedList: this.state.lists[idx]})
+    }
 
     handleSubmit(e) {
         console.log("Search -> handleSubmit -> e", e);
@@ -48,8 +59,16 @@ class Search extends React.Component {
         return(
             <div className="Search">
                 <form onSubmit={this.handleSubmit}>
-                    <BoardSelector boards={this.state.boards} />
-                    <ListSelector lists={this.state.lists} />
+                    <BoardSelector
+                        boards={this.state.boards}
+                        selectedList={this.state.selectedList}
+                        onSelect={this.selectBoard}
+                    />
+                    <ListSelector
+                        lists={this.state.lists}
+                        selectedBoard={this.state.selectedBoard}
+                        onSelect={this.selectList}
+                    />
                     {/*Input field goes here */}
                     <input type="submit" className="SearchButton" value="SEARCH" />
                 </form>
