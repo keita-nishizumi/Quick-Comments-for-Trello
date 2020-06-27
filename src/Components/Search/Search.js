@@ -5,6 +5,15 @@ import ListSelector from '../ListSelector/ListSelector';
 import '../../util/Trello';
 import Trello from '../../util/Trello';
 
+const initBoard = {
+    id: ""
+};
+
+const initList = {
+    id: "",
+    idBoard: ""
+};
+
 class Search extends React.Component {
     constructor(props) {
         super(props);
@@ -12,8 +21,8 @@ class Search extends React.Component {
             term: "",
             boards: [],
             lists: [],
-            selectedBoard: {},
-            selectedList: {}
+            selectedBoard: initBoard,
+            selectedList: initList
         }
 
         this.selectBoard = this.selectBoard.bind(this);
@@ -40,13 +49,30 @@ class Search extends React.Component {
         this.props.onSearch(this.state);
     }*/
 
-    selectBoard(board) {
-        this.setState({selectedBoard: board});
+    selectBoard(id) {
+        const b = this.state.boards.find(board => {return board.id === id});
+        if(typeof b === "undefined") {
+            this.setState({selectedBoard: initBoard});
+        } else {
+            this.setState({selectedBoard: b});
+            //if board and selected list are not match, then reset the list.
+            if(b.id !== this.state.selectedList.idBoard) {
+                this.setState({selectedList: initList});
+            }
+        }
     }
 
-    //FIXME Choose a list...の行のせいでindexがずれている可能性があります
-    selectList(idx) {
-        this.setState({selectedList: this.state.lists[idx]})
+    selectList(id) {
+        const l = this.state.lists.find(list => {return list.id === id});
+        if(typeof l === "undefined") {
+            this.setState({selectedList: initList});
+        } else {
+            this.setState({selectedList: l});
+            //if list and selected board are not match, then reset the board.
+            if (this.state.selectedBoard.id !== l.idBoard) {
+                this.setState({selectedBoard: initBoard})
+            }
+        }
     }
 
     handleSubmit(e) {
