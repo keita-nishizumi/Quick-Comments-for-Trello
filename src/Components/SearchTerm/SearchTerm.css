@@ -1,0 +1,14 @@
+  .SearchTerm input {
+    width: 287px;
+    padding: .22rem 0;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    margin-bottom: 2.22rem;
+    color: #010c3f;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .SearchTerm input:focus {
+    outline: none;
+  }

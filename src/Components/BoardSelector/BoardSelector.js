@@ -26,7 +26,7 @@ class BoardSelector extends React.Component {
 
     render() {
         return (
-            <div className="BoarcSelector">
+            <div className="BoardSelector">
                 <select onChange={this.handleSelect}>
                     <option value="" selected>Choose a board...</option>
                     {this.getAllBoards(this.props.selectedList)}

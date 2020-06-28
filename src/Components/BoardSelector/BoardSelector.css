@@ -1,0 +1,8 @@
+.BoardSelector select {
+    width: 15.9rem;
+    padding: .22rem 0;
+    border: 1px solid #fff;
+    border-radius: 3px;
+    margin-bottom: .44rem;
+    color: #010c3f;
+}

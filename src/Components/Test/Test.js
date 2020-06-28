@@ -8,7 +8,7 @@ class Test extends React.Component {
             <div className="methods-test">
                 <button onClick={Trello.getAccessToken}>getAccessToken</button>
                 <button onClick={Trello.getBoards}>getBoards</button>
-                <Search />
+                {/*<Search />*/}
             </div>
         )
     }

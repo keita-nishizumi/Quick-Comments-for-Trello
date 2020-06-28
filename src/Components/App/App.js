@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import SearchBar from '../SearchBar/SearchBar';
+import Search from '../Search/Search';
 import SearchResults from '../SearchResults/SearchResults';
 import CommentList from '../CommentList/CommentList';
 import Trello from '../../util/Trello';
@@ -10,7 +10,7 @@ import Test from '../Test/Test';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.fetchMyBoards();
+    //this.fetchMyBoards();
     this.state = {
       myBoards: [],
       searchResults: [
@@ -94,11 +94,11 @@ class App extends React.Component {
     this.search = this.search.bind(this);
   }
 
-  async fetchMyBoards() {
+/*  async fetchMyBoards() {
     const myBoards = await Trello.getBoards();
     console.log("App -> fetchMyBoards -> myBoards", myBoards);
     this.setState({myBoards: myBoards});
-  }
+  }*/
 
   updateKeyword(newKeyword) {
     this.setState({commentKeyword: newKeyword});
@@ -144,11 +144,7 @@ class App extends React.Component {
       <div>
         <h1>Quick<span className="highlight"> こめんと </span>for Trello</h1>
         <div className="App">
-          <SearchBar
-            onSearch={this.search}
-            myBoards={this.state.myBoards}
-          />
-          {/*Search Component goes here. props={this.onSearch} */}
+          <Search />
           <div className="App-playlist" >
             <SearchResults
               searchResults={this.state.searchResults}

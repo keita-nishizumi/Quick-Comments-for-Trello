@@ -7,7 +7,6 @@ const baseUrl = 'https://trello.com/1';
 
 const Trello = {
     getAccessToken(restart=false) {
-        console.log("REACT_APP_TRELLO_API_KEY: ", apiKey);
         if(accessToken) {
             return accessToken;
         }
@@ -16,13 +15,12 @@ const Trello = {
 
         if(accessTokenMatch && !restart) {
             accessToken = accessTokenMatch[1];
-            console.log("getAccessToken -> accessToken", accessToken);
-            //return accessToken;
+            return accessToken;
         } else {
             const accessUrl = `https://trello.com/1/authorize?expiration=never&name=QuickCommentsForTrello&scope=read&response_type=token&key=${apiKey}&return_url=${redirectURI}`;
             window.location = accessUrl;
-            console.log("accessToken: ", accessToken);
-            //return accessToken;
+            console.log("Re-fetched accessToken: ", accessToken);
+            return accessToken;
         }
     },
 
@@ -43,7 +41,6 @@ const Trello = {
     },
 
     getLists(board) {
-        console.log("getLists -> board.id", board.id);
         const accessToken = Trello.getAccessToken();
         const url = `${baseUrl}/boards/${board.id}/lists?key=${apiKey}&token=${accessToken}`;
         return fetch(url, {'method':'get'}).then(response => {
@@ -58,7 +55,6 @@ const Trello = {
     },
 
     async getAllLists(boards) {
-        console.log("getAllLists -> boards", boards);
         const fetchArray = boards.map(async board => {
             const list = await Trello.getLists(board);
             return list;
