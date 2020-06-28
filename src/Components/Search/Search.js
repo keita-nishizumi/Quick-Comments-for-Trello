@@ -2,6 +2,7 @@ import React from 'react';
 import './Search.css';
 import BoardSelector from '../BoardSelector/BoardSelector';
 import ListSelector from '../ListSelector/ListSelector';
+import SearchTerm from '../SearchTerm/SearchTerm';
 import '../../util/Trello';
 import Trello from '../../util/Trello';
 
@@ -27,6 +28,7 @@ class Search extends React.Component {
 
         this.selectBoard = this.selectBoard.bind(this);
         this.selectList = this.selectList.bind(this);
+        this.updateTerm = this.updateTerm.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
@@ -75,6 +77,10 @@ class Search extends React.Component {
         }
     }
 
+    updateTerm(term) {
+        this.setState({term: term});
+    }
+
     handleSubmit(e) {
         console.log("Search -> handleSubmit -> e", e);
         //親コンポーネントに探してきて欲しいカードの情報を渡す
@@ -95,7 +101,9 @@ class Search extends React.Component {
                         selectedBoard={this.state.selectedBoard}
                         onSelect={this.selectList}
                     />
-                    {/*Input field goes here */}
+                    <SearchTerm
+                        onTermChange={this.updateTerm}
+                    />
                     <input type="submit" className="SearchButton" value="SEARCH" />
                 </form>
             </div>
