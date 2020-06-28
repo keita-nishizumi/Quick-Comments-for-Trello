@@ -42,12 +42,12 @@ const Trello = {
 
     getLists(board) {
         const accessToken = Trello.getAccessToken();
-        const url = `${baseUrl}/boards/${board.id}/lists?key=${apiKey}&token=${accessToken}`;
+        const url = `${baseUrl}/boards/${board.id}/lists/open?key=${apiKey}&token=${accessToken}`;
         return fetch(url, {'method':'get'}).then(response => {
             return response.json();
         }).then(jsonResponse => {
             console.log("getLists -> jsonResponse", jsonResponse)
-            return jsonResponse;
+            return jsonResponse.filter(list => !list.closed);
         }).catch(err => {
             console.log(err);
             return [];
@@ -71,23 +71,63 @@ const Trello = {
                 alert("Please set search conditions.");
                 throw new Error('Please set search conditions.');
             }
-            console.log("getCards -> name", term);
             const accessToken = Trello.getAccessToken();
-            const url = `${baseUrl}/search/?key=${apiKey}&token=${accessToken}&modelTypes=cards&query=name:${term}`
-            return fetch(url, {'method':'get'}).then(response => {
-                return response.json();
-            }).then(jsonResponse => {
-                console.log("getCard -> jsonResponse.cards", jsonResponse.cards);
-                return jsonResponse.cards;
-            }).catch(err => {
-                console.log(err);
-                return [];
-            })
+
+            if(term) {
+                const url = `${baseUrl}/search/?key=${apiKey}&token=${accessToken}&modelTypes=cards&cards_limit=500&query=name:${term}`
+                return fetch(url, {'method':'get'}).then(response => {
+                    return response.json();
+                }).then(jsonResponse => {
+                    console.log("getCard -> jsonResponse.cards", jsonResponse.cards);
+                    return jsonResponse.cards.filter(card => {
+                        if (idList) {
+                            console.log("filtering by idList");
+                            return !card.closed && card.idList === idList;
+                        } else if (idBoard) {
+                            console.log("filtering by idList");
+                            return !card.closed && card.idBoard === idBoard;
+                        } else {
+                            return !card.closed;
+                        }
+                    });
+                }).catch(err => {
+                    console.log(err);
+                    return [];
+                })
+            } else if (idList) {
+                return Trello.getCardsByListOrBoard(idList, "lists");
+            } else if (idBoard) {
+                return Trello.getCardsByListOrBoard(idBoard, "boards");
+            } else {
+                throw new Error('Uncaught error.');
+            }
         } catch(e) {
             alert(e);
         }
     },
 
+    getCardsByListOrBoard(id, type) {
+        try {
+            if(type !== "lists" && type !== "boards") {
+                throw new Error('Type must be "lists" or "boards".')
+            }
+            const accessToken = Trello.getAccessToken();
+            const url = `${baseUrl}/${type}/${id}/cards/?key=${apiKey}&token=${accessToken}`;
+            return fetch(url, {'method':'get'}).then(response => {
+                return response.json();
+            }).then(jsonResponse => {
+                console.log("getLists -> jsonResponse", jsonResponse)
+                return jsonResponse.filter(card => !card.closed);
+            }).catch(err => {
+                console.log(err);
+                return [];
+            })
+        } catch(e) {
+            console.log(e);
+        }
+    },
+
+    //FIXME: This might be unnecessary method.
     getAllCards() {
         const accessToken = Trello.getAccessToken();
         const url = `${baseUrl}/members/me/cards/?key=${apiKey}&token=${accessToken}`
@@ -104,5 +144,3 @@ const Trello = {
 };
 
 export default Trello;
-
-//&query=name:${term}`

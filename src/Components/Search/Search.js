@@ -81,10 +81,20 @@ class Search extends React.Component {
         this.setState({term: term});
     }
 
-    handleSubmit(e) {
-        console.log("Search -> handleSubmit -> e", e);
-        //親コンポーネントに探してきて欲しいカードの情報を渡す
-        //this.props.onSearch(e.target.value);
+    async handleSubmit(e) {
+        e.preventDefault();
+        //Give the term, listID, and boardID to Trello.getCards() method,
+        //then add board name & list name property to each card object.
+        let searchResults = await Trello.getCards(this.state.term, this.state.selectedList.id, this.state.selectedBoard.id);
+        if (searchResults) {
+            searchResults.map(card => {
+                //add two property to card object
+                card.board = this.state.boards.find(b => b.id === card.idBoard);
+                card.list = this.state.lists.find(l => l.id === card.idList);
+            })
+            console.log("Search -> handleSubmit -> searchResults", searchResults);
+            this.props.onSearch(searchResults);
+        }
     }
 
     render() {
@@ -104,7 +114,7 @@ class Search extends React.Component {
                     <SearchTerm
                         onTermChange={this.updateTerm}
                     />
-                    <input type="submit" className="SearchButton" value="SEARCH" />
+                    <input type="submit" className="SearchButton" value="SEARCH"/>
                 </form>
             </div>
         )

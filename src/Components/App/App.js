@@ -13,101 +13,24 @@ class App extends React.Component {
     //this.fetchMyBoards();
     this.state = {
       myBoards: [],
-      searchResults: [
-        {
-          id: 'id01',
-          name: 'card01',
-          list: {
-            id: 'listid01',
-            name: 'listname01'
-          },
-          board: {
-            id: 'boardid01',
-            name: 'boardname01'
-          },
-          url: 'url01'
-        },
-        {
-          id: 'id02',
-          name: 'card02',
-          list: {
-            id: 'listid02',
-            name: 'listname02'
-          },
-          board: {
-            id: 'boardid02',
-            name: 'boardname02'
-          },
-          url: 'url02'
-        },
-        {
-          id: 'id03',
-          name: 'card03',
-          list: {
-            id: 'listid03',
-            name: 'listname03'
-          },
-          board: {
-            id: 'boardid03',
-            name: 'boardname03'
-          },
-          url: 'url03'
-        }
-      ],
+      searchResults: [],
       commentKeyword: 'plus! 0/0',
-      commentListCards: [
-        {
-          id: 'id04',
-          name: 'card04',
-          list: {
-            id: 'listid04',
-            name: 'listname04'
-          },
-          board: {
-            id: 'boardid04',
-            name: 'boardname04'
-          },
-          url: 'url04',
-          seq: 0
-        },
-        {
-          id: 'id05',
-          name: 'card05',
-          list: {
-            id: 'listid05',
-            name: 'listname05'
-          },
-          board: {
-            id: 'boardid05',
-            name: 'boardname05'
-          },
-          url: 'url05',
-          seq: 0
-        }
-      ]
+      commentListCards: []
     };
 
     this.addCard = this.addCard.bind(this);
     this.removeCard = this.removeCard.bind(this);
     this.updateKeyword = this.updateKeyword.bind(this);
     this.postComments = this.postComments.bind(this);
-    this.search = this.search.bind(this);
+    this.changeResults = this.changeResults.bind(this);
   }
-
-/*  async fetchMyBoards() {
-    const myBoards = await Trello.getBoards();
-    console.log("App -> fetchMyBoards -> myBoards", myBoards);
-    this.setState({myBoards: myBoards});
-  }*/
 
   updateKeyword(newKeyword) {
     this.setState({commentKeyword: newKeyword});
   }
 
   addCard(card) {
-    // // console.log("App -> addCard -> card", card);
     let currentList = this.state.commentListCards;
-    // // console.log("BEFORE FILTER: App -> addCard -> currentList", currentList)
 
     //Count cards that have same ID
     const newSeq = currentList.filter(e => e.id === card.id).length;
@@ -135,8 +58,9 @@ class App extends React.Component {
     console.log('I will post these comments!');
   }
 
-  search(term) {
-    console.log("The search term is: ", term);
+  changeResults(searchResults) {
+    this.setState({searchResults: searchResults});
+    console.log("App -> changeResults -> searchResults", searchResults);
   }
 
   render() {
@@ -144,7 +68,7 @@ class App extends React.Component {
       <div>
         <h1>Quick<span className="highlight"> こめんと </span>for Trello</h1>
         <div className="App">
-          <Search />
+          <Search onSearch={this.changeResults}/>
           <div className="App-playlist" >
             <SearchResults
               searchResults={this.state.searchResults}
