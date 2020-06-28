@@ -24,6 +24,7 @@ class BoardSelector extends React.Component {
         this.props.onSelect(e.target.value);
     }
 
+    //FIXME: When select one list, then select "Choose a list...", props.selectedBoard saves value but BoardSelector component will be reset.
     render() {
         return (
             <div className="BoardSelector">

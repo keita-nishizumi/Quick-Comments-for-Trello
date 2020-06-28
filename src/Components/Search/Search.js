@@ -71,7 +71,7 @@ class Search extends React.Component {
         } else {
             this.setState({selectedList: l});
             //if list and selected board are not match, then reset the board.
-            if (this.state.selectedBoard.id !== l.idBoard) {
+            if (this.state.selectedBoard.id !== l.idBoard && l.id !== "") {
                 this.setState({selectedBoard: initBoard})
             }
         }
@@ -92,7 +92,6 @@ class Search extends React.Component {
                 card.board = this.state.boards.find(b => b.id === card.idBoard);
                 card.list = this.state.lists.find(l => l.id === card.idList);
             })
-            console.log("Search -> handleSubmit -> searchResults", searchResults);
             this.props.onSearch(searchResults);
         }
     }

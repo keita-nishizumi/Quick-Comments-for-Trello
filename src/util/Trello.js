@@ -29,7 +29,6 @@ const Trello = {
         //TODO: If user already selected List, should only search the board in which the selected list.
         const url = `${baseUrl}/members/me/boards/?key=${apiKey}&token=${accessToken}`
         return fetch(url, {'method':'get'}).then(response => {
-            console.log("getBoards -> response", response)
             return response.json();
         }).then(jsonResponse => {
             console.log(jsonResponse);
@@ -46,7 +45,6 @@ const Trello = {
         return fetch(url, {'method':'get'}).then(response => {
             return response.json();
         }).then(jsonResponse => {
-            console.log("getLists -> jsonResponse", jsonResponse)
             return jsonResponse.filter(list => !list.closed);
         }).catch(err => {
             console.log(err);
@@ -81,10 +79,8 @@ const Trello = {
                     console.log("getCard -> jsonResponse.cards", jsonResponse.cards);
                     return jsonResponse.cards.filter(card => {
                         if (idList) {
-                            console.log("filtering by idList");
                             return !card.closed && card.idList === idList;
                         } else if (idBoard) {
-                            console.log("filtering by idList");
                             return !card.closed && card.idBoard === idBoard;
                         } else {
                             return !card.closed;
