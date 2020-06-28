@@ -63,6 +63,21 @@ const Trello = {
         const twoDimensionalResult = await Promise.all(fetchArray);
         console.log("getAllLists -> twoDimensionalResult", twoDimensionalResult);
         return twoDimensionalResult.flat();
+    },
+
+    getCards(name) {
+        console.log("getCards -> name", name);
+        const accessToken = Trello.getAccessToken();
+        const url = `${baseUrl}/search/?key=${apiKey}&token=${accessToken}&modelTypes=cards&query=${name}`
+        return fetch(url, {'method':'get'}).then(response => {
+            return response.json();
+        }).then(jsonResponse => {
+            console.log("getCard -> jsonResponse.cards", jsonResponse.cards);
+            return jsonResponse.cards;
+        }).catch(err => {
+            console.log(err);
+            return [];
+        })
     }
 };
 
