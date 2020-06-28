@@ -65,15 +65,37 @@ const Trello = {
         return twoDimensionalResult.flat();
     },
 
-    getCards(name) {
-        console.log("getCards -> name", name);
+    getCards(term="", idList="", idBoard="") {
+        try {
+            if (term + idList + idBoard === "") {
+                alert("Please set search conditions.");
+                throw new Error('Please set search conditions.');
+            }
+            console.log("getCards -> name", term);
+            const accessToken = Trello.getAccessToken();
+            const url = `${baseUrl}/search/?key=${apiKey}&token=${accessToken}&modelTypes=cards&query=name:${term}`
+            return fetch(url, {'method':'get'}).then(response => {
+                return response.json();
+            }).then(jsonResponse => {
+                console.log("getCard -> jsonResponse.cards", jsonResponse.cards);
+                return jsonResponse.cards;
+            }).catch(err => {
+                console.log(err);
+                return [];
+            })
+        } catch(e) {
+            alert(e);
+        }
+    },
+
+    getAllCards() {
         const accessToken = Trello.getAccessToken();
-        const url = `${baseUrl}/search/?key=${apiKey}&token=${accessToken}&modelTypes=cards&query=${name}`
-        return fetch(url, {'method':'get'}).then(response => {
+        const url = `${baseUrl}/members/me/cards/?key=${apiKey}&token=${accessToken}`
+        return fetch(url, {'method': 'get'}).then(response => {
             return response.json();
         }).then(jsonResponse => {
-            console.log("getCard -> jsonResponse.cards", jsonResponse.cards);
-            return jsonResponse.cards;
+            console.log("getAllCards -> jsonResponse", jsonResponse);
+            return jsonResponse;
         }).catch(err => {
             console.log(err);
             return [];
@@ -82,3 +104,5 @@ const Trello = {
 };
 
 export default Trello;
+
+//&query=name:${term}`

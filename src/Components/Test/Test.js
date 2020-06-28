@@ -27,6 +27,7 @@ class Test extends React.Component {
                 <button onClick={Trello.getBoards}>getBoards</button>
                 <input type="text" onChange={this.handleInput}/>
                 <button onClick={this.handleClick}>getCards</button>
+                <button onClick={Trello.getAllCards}>getAllCards</button>
                 {/*<Search />*/}
             </div>
         )
