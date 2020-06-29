@@ -6,6 +6,7 @@ class Card extends React.Component {
         super(props);
         this.addCard = this.addCard.bind(this);
         this.removeCard = this.removeCard.bind(this);
+        this.handleCommentChange = this.handleCommentChange.bind(this);
     }
 
     addCard() {
@@ -26,9 +27,20 @@ class Card extends React.Component {
             <button className="Card-action" onClick={this.addCard}>+</button>;
     }
 
+    handleCommentChange(e) {
+        this.props.onCommentChange(this.props.card.id, this.props.card.seq, e.target.value);
+        //console.log("Card -> handleCommentChange -> this.props.card.id, this.props.card.seq, e.target.value", this.props.card.id, this.props.card.seq, e.target.value);
+    }
+
     renderCommentField() {
         if (this.props.isRemoval) {
-            return <input className="Comment-field" value={this.props.commentKeyword + " "} />
+            return (
+                <input
+                    className="Comment-field"
+                    defaultValue={this.props.commentKeyword + " "}
+                    onChange={this.handleCommentChange}
+                />
+            )
         }
     }
 

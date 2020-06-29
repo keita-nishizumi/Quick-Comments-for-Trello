@@ -16,6 +16,7 @@ class CardList extends React.Component {
                             onAdd={this.props.onAdd}
                             onRemove={this.props.onRemove}
                             commentKeyword={this.props.commentKeyword}
+                            onCommentChange={this.props.onCommentChange}
                         />)
                 })}
             </div>

@@ -23,6 +23,7 @@ class App extends React.Component {
     this.updateKeyword = this.updateKeyword.bind(this);
     this.postComments = this.postComments.bind(this);
     this.changeResults = this.changeResults.bind(this);
+    this.changeComment = this.changeComment.bind(this);
   }
 
   updateKeyword(newKeyword) {
@@ -55,14 +56,21 @@ class App extends React.Component {
     });
   }
 
-  postComments() {
-    let cardURIs = [];
-    console.log('I will post these comments!');
-  }
-
   changeResults(searchResults) {
     this.setState({searchResults: searchResults});
     console.log("App -> changeResults -> searchResults", searchResults);
+  }
+
+  changeComment(id, seq, text) {
+    const targetCard = this.state.commentListCards.find(card => {
+      return (card.id === id && card.seq === seq);
+    });
+    targetCard.comment = text;
+  }
+
+  postComments() {
+    //let cardURIs = [];
+    console.log('I will post these comments!');
   }
 
   render() {
@@ -81,6 +89,7 @@ class App extends React.Component {
               commentListCards={this.state.commentListCards}
               onRemove={this.removeCard}
               onKeywordChange={this.updateKeyword}
+              onCommentChange={this.changeComment}
               onPost={this.postComments}
             />
           </div>

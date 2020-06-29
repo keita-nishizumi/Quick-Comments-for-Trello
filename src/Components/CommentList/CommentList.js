@@ -31,6 +31,7 @@ class CommentList extends React.Component {
                         isRemoval={true}
                         onRemove={this.props.onRemove}
                         commentKeyword={this.props.commentKeyword}
+                        onCommentChange={this.props.onCommentChange}
                     />
                 <button className="CommentList-save" onClick={this.handlePost} >POST TO TRELLO</button>
             </div>
