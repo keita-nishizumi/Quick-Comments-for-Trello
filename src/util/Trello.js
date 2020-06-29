@@ -1,7 +1,7 @@
 let accessToken = "";
 const apiKey = process.env.REACT_APP_TRELLO_API_KEY;
-//const redirectURI = "http://localhost:3000/";
-const redirectURI = "https://quick-comments-for-trello.herokuapp.com/"
+const redirectURI = "http://localhost:3000/";
+//const redirectURI = "https://quick-comments-for-trello.herokuapp.com/"
 //TODO: After publishing, replace this redirect URI with new URL of this app.
 //TODO: After publishing, add new URL to "Allowed Origins" list of my Trello account.
 const baseUrl = 'https://trello.com/1';
