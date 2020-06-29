@@ -1,1 +1,1 @@
-web: node src/Components/App/App.js
+web: node server.js
