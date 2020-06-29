@@ -5,8 +5,6 @@ import SearchResults from '../SearchResults/SearchResults';
 import CommentList from '../CommentList/CommentList';
 import Trello from '../../util/Trello';
 
-import Test from '../Test/Test';
-
 class App extends React.Component {
   constructor(props) {
     super(props);
