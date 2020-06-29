@@ -6,10 +6,16 @@ class CommentList extends React.Component {
     constructor(props) {
         super(props);
         this.handleKeywordChange = this.handleKeywordChange.bind(this);
+        this.handlePost = this.handlePost.bind(this);
     }
 
     handleKeywordChange(e) {
         this.props.onKeywordChange(e.target.value);
+    }
+
+    handlePost() {
+        //TODO: post comments
+        this.props.onPost();
     }
 
     render() {
@@ -26,7 +32,7 @@ class CommentList extends React.Component {
                         onRemove={this.props.onRemove}
                         commentKeyword={this.props.commentKeyword}
                     />
-                <button className="CommentList-save" onClick={this.props.onPost} >POST TO TRELLO</button>
+                <button className="CommentList-save" onClick={this.handlePost} >POST TO TRELLO</button>
             </div>
         )
     }

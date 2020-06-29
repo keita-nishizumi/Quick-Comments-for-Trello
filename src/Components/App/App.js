@@ -50,7 +50,9 @@ class App extends React.Component {
 
   removeCard(card) {
     //Do not remove other cards that has same ID
-    this.setState({commentListCards: this.state.commentListCards.filter(e => e.id+e.seq !== card.id+card.seq)});
+    this.setState({
+      commentListCards: this.state.commentListCards.filter(e => e.id+e.seq !== card.id+card.seq)
+    });
   }
 
   postComments() {

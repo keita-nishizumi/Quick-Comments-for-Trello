@@ -10,6 +10,7 @@ class Test extends React.Component {
         };
         this.handleInput = this.handleInput.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handlePost = this.handlePost.bind(this);
     }
 
     handleInput(e) {
@@ -20,6 +21,11 @@ class Test extends React.Component {
         Trello.getCards(this.state.query);
     }
 
+    handlePost() {
+        //Hard coding ID to 'Test Comments' card.
+        Trello.postComment("5ef92ed420bd840fd8421b01", this.state.query);
+    }
+
     render() {
         return (
             <div className="methods-test">
@@ -28,6 +34,7 @@ class Test extends React.Component {
                 <input type="text" onChange={this.handleInput}/>
                 <button onClick={this.handleClick}>getCards</button>
                 <button onClick={Trello.getAllCards}>getAllCards</button>
+                <button onClick={this.handlePost}>postComment</button>
                 {/*<Search />*/}
             </div>
         )

@@ -17,7 +17,7 @@ const Trello = {
             accessToken = accessTokenMatch[1];
             return accessToken;
         } else {
-            const accessUrl = `https://trello.com/1/authorize?expiration=never&name=QuickCommentsForTrello&scope=read&response_type=token&key=${apiKey}&return_url=${redirectURI}`;
+            const accessUrl = `https://trello.com/1/authorize?expiration=never&name=QuickCommentsForTrello&scope=read,write&response_type=token&key=${apiKey}&return_url=${redirectURI}`;
             window.location = accessUrl;
             console.log("Re-fetched accessToken: ", accessToken);
             return accessToken;
@@ -136,6 +136,26 @@ const Trello = {
             console.log(err);
             return [];
         })
+    },
+
+    postComment(id, text="") {
+        //Method: POST /1/cards/[card id or shortlink]/actions/comments
+        console.log("postComment -> id, comment", id, text);
+        const accessToken = Trello.getAccessToken();
+        const url = `${baseUrl}/cards/${id}/actions/comments?key=${apiKey}&token=${accessToken}&text=${text}`;
+        return fetch(url, {'method': 'post'}).then(response => {
+            return response.json();
+        }).then(jsonResponse => {
+            console.log("postComment -> jsonResponse", jsonResponse);
+            return jsonResponse;
+        }).catch(err => {
+            console.log("postComment -> err", err);
+            return {};
+        })
+    },
+
+    postCommentsBatch(cards) {
+        
     }
 };
 
