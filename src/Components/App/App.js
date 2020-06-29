@@ -68,9 +68,13 @@ class App extends React.Component {
     targetCard.comment = text;
   }
 
-  postComments() {
-    //let cardURIs = [];
+  async postComments() {
     console.log('I will post these comments!');
+    const results = await Trello.postCommentsBatch(this.state.commentListCards);
+    console.log("App -> postComments -> results", results);
+    const resultMessage = `${results.length} comments are succesfully posted.`;
+    alert(resultMessage);
+    this.setState({commentListCards: []});
   }
 
   render() {

@@ -138,24 +138,40 @@ const Trello = {
         })
     },
 
-    postComment(id, text="") {
-        //Method: POST /1/cards/[card id or shortlink]/actions/comments
-        console.log("postComment -> id, comment", id, text);
-        const accessToken = Trello.getAccessToken();
-        const url = `${baseUrl}/cards/${id}/actions/comments?key=${apiKey}&token=${accessToken}&text=${text}`;
-        return fetch(url, {'method': 'post'}).then(response => {
-            return response.json();
-        }).then(jsonResponse => {
-            console.log("postComment -> jsonResponse", jsonResponse);
-            return jsonResponse;
-        }).catch(err => {
-            console.log("postComment -> err", err);
-            return {};
-        })
+    //FIXME: uneccessary method?
+    postComment(card, accessToken) {
+        try {
+            if(!card.comment) {
+                throw new Error(`Please input some comments on "${card.name}".`);
+            }
+            //Method: POST /1/cards/[card id or shortlink]/actions/comments
+            console.log("postComment -> id, comment", card.id, card.comment);
+            const url = `${baseUrl}/cards/${card.id}/actions/comments?key=${apiKey}&token=${accessToken}&text=${card.comment}`;
+            return fetch(url, {'method': 'post'}).then(response => {
+                return response.json();
+            }).then(jsonResponse => {
+                console.log("postComment -> jsonResponse", jsonResponse);
+                return jsonResponse;
+            }).catch(err => {
+                console.log("postComment -> err", err);
+                return {};
+            })
+        } catch(err) {
+            alert(err);
+        }
     },
 
-    postCommentsBatch(cards) {
-        
+    //Trello doesn't provide batch requests for POST method.
+    async postCommentsBatch(cards) {
+        if (window.confirm('Are you sure to post these comments?')){
+            const accessToken = Trello.getAccessToken();
+            const fetchArray = cards.map(card => {
+                return this.postComment(card, accessToken);
+            }).filter(p => p); //remove undefined
+            console.log("postCommentsBatch -> fetchArray", fetchArray);
+            const result = await Promise.all(fetchArray);
+            return result;
+        }
     }
 };
 
