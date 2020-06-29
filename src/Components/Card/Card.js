@@ -11,15 +11,14 @@ class Card extends React.Component {
 
     addCard() {
         this.props.onAdd(this.props.card);
-        // console.log("Card -> addCard -> this.props.onAdd", this.props.onAdd)
-        // console.log("Add this Card -> addCard -> this.props.card", this.props.card);
     }
 
     removeCard() {
         this.props.onRemove(this.props.card);
-        //console.log("Card -> removeCard -> this.props.onRemove", this.props.onRemove);
     }
 
+    //if the card is on "Results" area, then show plus button.
+    //if the card is on "Comments" area, then show minus button.
     renderAction() {
         return this.props.isRemoval ?
             <button className="Card-action" onClick={this.removeCard}>-</button>
@@ -29,7 +28,6 @@ class Card extends React.Component {
 
     handleCommentChange(e) {
         this.props.onCommentChange(this.props.card.id, this.props.card.seq, e.target.value);
-        //console.log("Card -> handleCommentChange -> this.props.card.id, this.props.card.seq, e.target.value", this.props.card.id, this.props.card.seq, e.target.value);
     }
 
     renderCommentField() {

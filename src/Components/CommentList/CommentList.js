@@ -14,7 +14,6 @@ class CommentList extends React.Component {
     }
 
     handlePost() {
-        //TODO: post comments
         this.props.onPost();
     }
 

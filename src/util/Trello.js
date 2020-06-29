@@ -1,5 +1,5 @@
 let accessToken = "";
-const apiKey = process.env.REACT_APP_TRELLO_API_KEY; //TrelloのAPI Keyで、なんか検索するとよく出てくる方
+const apiKey = process.env.REACT_APP_TRELLO_API_KEY;
 const redirectURI = "http://localhost:3000/";
 //TODO: After publishing, replace this redirect URI with new URL of this app.
 //TODO: After publishing, add new URL to "Allowed Origins" list of my Trello account.
@@ -30,9 +30,6 @@ const Trello = {
         const url = `${baseUrl}/members/me/boards/?key=${apiKey}&token=${accessToken}`
         return fetch(url, {'method':'get'}).then(response => {
             return response.json();
-        }).then(jsonResponse => {
-            console.log(jsonResponse);
-            return jsonResponse;
         }).catch(err => {
             console.log(err);
             return [];
@@ -57,7 +54,6 @@ const Trello = {
             const list = await Trello.getLists(board);
             return list;
         });
-        console.log("fetchArray: ",fetchArray);
         const twoDimensionalResult = await Promise.all(fetchArray);
         console.log("getAllLists -> twoDimensionalResult", twoDimensionalResult);
         return twoDimensionalResult.flat();
@@ -112,7 +108,6 @@ const Trello = {
             return fetch(url, {'method':'get'}).then(response => {
                 return response.json();
             }).then(jsonResponse => {
-                console.log("getLists -> jsonResponse", jsonResponse)
                 return jsonResponse.filter(card => !card.closed);
             }).catch(err => {
                 console.log(err);
@@ -138,7 +133,6 @@ const Trello = {
         })
     },
 
-    //FIXME: uneccessary method?
     postComment(card, accessToken) {
         try {
             if(!card.comment) {
@@ -168,7 +162,6 @@ const Trello = {
             const fetchArray = cards.map(card => {
                 return this.postComment(card, accessToken);
             }).filter(p => p); //remove undefined
-            console.log("postCommentsBatch -> fetchArray", fetchArray);
             const result = await Promise.all(fetchArray);
             return result;
         }

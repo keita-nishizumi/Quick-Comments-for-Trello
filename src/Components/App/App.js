@@ -10,7 +10,6 @@ import Test from '../Test/Test';
 class App extends React.Component {
   constructor(props) {
     super(props);
-    //this.fetchMyBoards();
     this.state = {
       myBoards: [],
       searchResults: [],
@@ -32,20 +31,10 @@ class App extends React.Component {
 
   addCard(card) {
     let currentList = this.state.commentListCards;
-
-    //Count cards that have same ID
     const newSeq = currentList.filter(e => e.id === card.id).length;
-    // // console.log("AFTER FILTER: ", currentList);
-    // // //console.log("App -> addCard -> seq", seq);
-    let newCard = Object.assign({}, card);
-    // console.log("App -> addCard -> card", card)
-    newCard.seq = newSeq;
-    // console.log("App -> addCard -> newCard", newCard)
-    // // console.log("App -> addCard -> card.seq", card.seq);
-
-    // console.log("BEFORE: App -> addCard -> currentList", currentList);
+    let newCard = Object.assign({}, card); //copy object so that user can add same card several times.
+    newCard.seq = newSeq; //add seq property to the new added card in order to distinguish those cards which has same id.
     currentList.push(newCard);
-    // console.log("AFTER: App -> addCard -> currentList", currentList);
     this.setState({commentListCards: currentList});
   }
 
@@ -69,9 +58,7 @@ class App extends React.Component {
   }
 
   async postComments() {
-    console.log('I will post these comments!');
     const results = await Trello.postCommentsBatch(this.state.commentListCards);
-    console.log("App -> postComments -> results", results);
     const resultMessage = `${results.length} comments are succesfully posted.`;
     alert(resultMessage);
     this.setState({commentListCards: []});
@@ -98,7 +85,6 @@ class App extends React.Component {
             />
           </div>
         </div>
-        <Test />
       </div>
     );}
 }

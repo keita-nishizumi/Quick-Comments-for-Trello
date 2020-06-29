@@ -32,10 +32,7 @@ class Search extends React.Component {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    //はじめに非同期通信でボード一覧を取得する。次に、取得したボードを使ってリストを更新する
-    //TODO:ボードが選択される度にリスト一覧が更新されるようにする
-    //TODO:リスト一覧は増えすぎる可能性があるので、クエリ制限をかけた方がいいかな？
-    //TODO:そもそもボードを選択する度に毎回リスト取得の通信をする必要ってあるの？？
+
     async componentDidMount() {
         const myBoards = await Trello.getBoards();
         console.log("Search -> componentDidMount -> myBoards", myBoards);
@@ -44,12 +41,7 @@ class Search extends React.Component {
             boards: myBoards,
             lists: myLists
             });
-        //this.search = this.search.bind(this);
     }
-
-    /*search() {
-        this.props.onSearch(this.state);
-    }*/
 
     selectBoard(id) {
         const b = this.state.boards.find(board => {return board.id === id});
